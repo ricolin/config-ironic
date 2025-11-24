@@ -1,0 +1,33 @@
+---
+neutron_networks:
+- external: true
+  mtu_size: 1500
+  name: public
+  port_security_enabled: true
+  provider_network_type: flat
+  provider_physical_network: external
+  shared: true
+  subnets:
+  - allocation_pool_end: 192.168.33.220
+    allocation_pool_start: 192.168.33.200
+    cidr: 192.168.33.0/24
+    enable_dhcp: true
+    gateway_ip: 192.168.33.1
+    name: public-subnet
+
+neutron_helm_values:
+  conf:
+    neutron:
+      DEFAULT:
+        api_workers: 2
+        debug: true
+        rpc_workers: 2
+        metadata_workers: 2
+  pod:
+    replicas:
+      server: 1
+      rpc_server: 1
+  network:
+    backend:
+      - ovn
+

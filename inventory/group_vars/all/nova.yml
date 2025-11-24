@@ -1,0 +1,5 @@
+---
+nova_helm_values:
+  manifests:
+    statefulset_compute_ironic: true
+

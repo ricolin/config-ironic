@@ -1,0 +1,3 @@
+---
+# OpenStack endpoints are pointing to the same Kubernetes VIP
+keepalived_enabled: false
