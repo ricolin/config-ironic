@@ -19,16 +19,16 @@
 - name: Install Kubernetes
   import_playbook: vexxhost.atmosphere.kubernetes
 
-- name: Install CSI
-  import_playbook: vexxhost.atmosphere.csi
-
-- name: Deploy Infrastructure
-  ansible.builtin.import_playbook: vexxhost.atmosphere.infrastructure
-
-- name: Deploy Monitoring
-  ansible.builtin.import_playbook: vexxhost.atmosphere.monitoring
-  tags:
-    - monitoring
-
-- name: Deploy OpenStack
-  import_playbook: vexxhost.atmosphere.openstack
+#- name: Install CSI
+#  import_playbook: vexxhost.atmosphere.csi
+#
+#- name: Deploy Infrastructure
+#  ansible.builtin.import_playbook: vexxhost.atmosphere.infrastructure
+#
+#- name: Deploy Monitoring
+#  ansible.builtin.import_playbook: vexxhost.atmosphere.monitoring
+#  tags:
+#    - monitoring
+#
+#- name: Deploy OpenStack
+#  import_playbook: vexxhost.atmosphere.openstack
