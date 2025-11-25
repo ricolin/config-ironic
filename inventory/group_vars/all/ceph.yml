@@ -12,4 +12,3 @@ ceph_conf_overrides:
   - section: mon
     option: auth allow insecure global id reclaim
     value: false
-
