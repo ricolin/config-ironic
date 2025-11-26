@@ -8,4 +8,4 @@ ovn_helm_values:
       ovn_northd: 1
   conf:
     auto_bridge_add:
-      br-ex: ens4
+      br-ex: null
