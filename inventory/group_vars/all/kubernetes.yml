@@ -3,7 +3,7 @@
 #kubernetes_hostname: 10.96.240.10
 #kubernetes_keepalived_vip: 10.96.240.10
 
-kubernetes_hostname: 192.168.33.216
+kubernetes_hostname: kubernetes.38.108.68.54.nip.io
 kubernetes_keepalived_vip: 192.168.33.254
 kubernetes_keepalived_vrid: 42
 kubernetes_version: 1.28.13
