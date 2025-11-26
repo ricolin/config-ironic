@@ -1,19 +1,24 @@
 ---
 neutron_networks:
-- external: true
-  mtu_size: 1500
-  name: public
-  port_security_enabled: true
-  provider_network_type: flat
-  provider_physical_network: external
-  shared: true
-  subnets:
-  - allocation_pool_end: 192.168.33.220
-    allocation_pool_start: 192.168.33.200
-    cidr: 192.168.33.0/24
-    #enable_dhcp: true
-    gateway_ip: 192.168.33.1
-    name: public-subnet
+  - external: true
+    mtu_size: 1500
+    name: public
+    port_security_enabled: true
+    provider_network_type: flat
+    provider_physical_network: external
+    shared: true
+    subnets:
+      - allocation_pool_end: 10.96.250.220
+        allocation_pool_start: 10.96.250.200
+        enable_dhcp: true
+        cidr: 10.96.250.0/24
+        gateway_ip: 10.96.250.10
+        name: public-subnet
+          #- allocation_pool_end: 192.168.33.220
+          #allocation_pool_start: 192.168.33.200
+          #cidr: 192.168.33.0/24
+          #enable_dhcp: true
+          #gateway_ip: 192.168.33.1
 
 neutron_helm_values:
   conf:
