@@ -198,3 +198,7 @@ horizon_helm_values:
   pod:
     replicas:
       server: 1
+
+ceph_csi_rbd_helm_values:
+  provisioner:
+    replicaCount: 1
