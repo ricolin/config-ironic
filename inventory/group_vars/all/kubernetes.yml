@@ -1,11 +1,11 @@
 ---
 #kubernetes_hostname: kubernetes.t1.a8e.ricolky.com
-#kubernetes_hostname: 10.96.240.10
+kubernetes_hostname: 10.96.240.10
 
   #kubernetes_hostname: 192.168.33.254
   #kubernetes_keepalived_vip: 192.168.33.254
-kubernetes_hostname: 38.108.68.106
+  #kubernetes_hostname: 38.108.68.106
 kubernetes_keepalived_vip: 10.96.240.10
 kubernetes_keepalived_vrid: 42
 kubernetes_version: 1.28.13
-kubernetes_keepalived_interface: ens6
+kubernetes_keepalived_interface: br-mgmt

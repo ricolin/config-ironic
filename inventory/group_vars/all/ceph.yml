@@ -1,7 +1,7 @@
 ceph_version: 19.2.3
 
 ceph_fsid: 0d5e6534-58ab-50f1-8eae-3b50941d2c12
-ceph_mon_public_network: 192.168.44.0/24
+ceph_mon_public_network: 10.96.240.0/24
 ceph_conf_overrides:
   - section: global
     option: mon allow pool size one
