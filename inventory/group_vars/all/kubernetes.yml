@@ -9,3 +9,4 @@ kubernetes_keepalived_vip: 192.168.33.254
 kubernetes_keepalived_vrid: 42
 kubernetes_version: 1.28.13
 kubernetes_keepalived_interface: ens4
+kubelet_node_ip: "{{ private_ip_address }}"
