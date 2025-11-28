@@ -1,3 +1,2 @@
----
 keepalived_interface: br-ex
-keepalived_vip: 192.168.44.10
+keepalived_vip: 10.96.250.10

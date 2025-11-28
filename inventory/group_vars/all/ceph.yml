@@ -1,4 +1,2 @@
-#ceph_version: 19.2.3
-
-ceph_fsid: 0d5e6534-58ab-50f1-8eae-3b50941d2c12
-ceph_mon_public_network: 192.168.33.0/24
+ceph_fsid: 58ba255d-1776-5635-814c-57a4a15844f2
+ceph_mon_public_network: 10.96.240.0/24

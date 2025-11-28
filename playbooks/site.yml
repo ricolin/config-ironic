@@ -27,7 +27,7 @@
       ansible.builtin.iptables:
         table: nat
         chain: POSTROUTING
-        source: 192.168.44.0/24
+        source: 10.96.250.0/24
         out_interface: "{{ ansible_default_ipv4.interface }}"
         jump: MASQUERADE
 
