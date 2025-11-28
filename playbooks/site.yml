@@ -20,6 +20,10 @@
       become: true
       command: apt-get update
 
+    - name: Drop unconfig apparmor
+      become: true
+      command: sudo apparmor_parser -R /etc/apparmor.d/MongoDB_Compass
+
 - hosts: controllers
   tasks:
     - name: Set masquerade rule
