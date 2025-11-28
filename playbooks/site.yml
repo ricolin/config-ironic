@@ -12,51 +12,51 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-#- hosts: all
-#  tasks:
-#    # The apt module can not be used for this since it installs python-apt
-#    # which can not work until this command fixes the cache.
-#    - name: Update apt cache
-#      become: true
-#      command: apt-get update
-#
-#    - name: Drop unconfig apparmor
-#      ignore_errors: true # noqa: ignore-errors
-#      become: true
-#      command: sudo apparmor_parser -R /etc/apparmor.d/MongoDB_Compass
-#
-#    - name: ensure pip3
-#      become: true
-#      command: sudo apt install python3-pip
-#
-#- hosts: controllers
-#  tasks:
-#    - name: Set masquerade rule
-#      become: true
-#      ansible.builtin.iptables:
-#        table: nat
-#        chain: POSTROUTING
-#        source: 10.96.250.0/24
-#        out_interface: "{{ ansible_default_ipv4.interface }}"
-#        jump: MASQUERADE
-#
-#- name: Install Ceph
-#  import_playbook: vexxhost.atmosphere.ceph
-#  when: atmosphere_ceph_enabled | default(true) | bool
+- hosts: all
+  tasks:
+    # The apt module can not be used for this since it installs python-apt
+    # which can not work until this command fixes the cache.
+    - name: Update apt cache
+      become: true
+      command: apt-get update
 
-#- name: Install Kubernetes
-#  import_playbook: vexxhost.atmosphere.kubernetes
-#
+        #- name: Drop unconfig apparmor
+        #ignore_errors: true # noqa: ignore-errors
+        #become: true
+        #command: sudo apparmor_parser -R /etc/apparmor.d/MongoDB_Compass
+
+        #- name: ensure pip3
+        #become: true
+        #command: sudo apt install python3-pip
+
+- hosts: controllers
+  tasks:
+    - name: Set masquerade rule
+      become: true
+      ansible.builtin.iptables:
+        table: nat
+        chain: POSTROUTING
+        source: 10.96.250.0/24
+        out_interface: "{{ ansible_default_ipv4.interface }}"
+        jump: MASQUERADE
+
+- name: Install Ceph
+  import_playbook: vexxhost.atmosphere.ceph
+  when: atmosphere_ceph_enabled | default(true) | bool
+
+- name: Install Kubernetes
+  import_playbook: vexxhost.atmosphere.kubernetes
+
 - name: Install CSI
   import_playbook: vexxhost.atmosphere.csi
-#
+
 - name: Deploy Infrastructure
   ansible.builtin.import_playbook: vexxhost.atmosphere.infrastructure
-#
+
 - name: Deploy Monitoring
   ansible.builtin.import_playbook: vexxhost.atmosphere.monitoring
   tags:
     - monitoring
-#
+
 - name: Deploy OpenStack
   import_playbook: vexxhost.atmosphere.openstack
