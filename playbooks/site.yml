@@ -20,6 +20,21 @@
       become: true
       command: apt-get update
 
+    - name: Add cephadm sudo rule to main sudoers
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: "cephadm ALL=(ALL) NOPASSWD:ALL"
+        state: present
+        validate: 'visudo -cf %s'
+
+    - name: Add ubuntu sudo rule to main sudoers
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: "ubuntu ALL=(ALL) NOPASSWD:ALL"
+        state: present
+        validate: 'visudo -cf %s'
         #- name: Drop unconfig apparmor
         #ignore_errors: true # noqa: ignore-errors
         #become: true
