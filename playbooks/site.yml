@@ -21,6 +21,7 @@
       command: apt-get update
 
     - name: Drop unconfig apparmor
+      ignore_errors: true # noqa: ignore-errors
       become: true
       command: sudo apparmor_parser -R /etc/apparmor.d/MongoDB_Compass
 
