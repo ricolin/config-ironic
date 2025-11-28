@@ -12,6 +12,25 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+- hosts: all
+  tasks:
+    # The apt module can not be used for this since it installs python-apt
+    # which can not work until this command fixes the cache.
+    - name: Update apt cache
+      become: true
+      command: apt-get update
+
+- hosts: controllers
+  tasks:
+    - name: Set masquerade rule
+      become: true
+      ansible.builtin.iptables:
+        table: nat
+        chain: POSTROUTING
+        source: 192.168.44.0/24
+        out_interface: "{{ ansible_default_ipv4.interface }}"
+        jump: MASQUERADE
+
 - name: Install Ceph
   import_playbook: vexxhost.atmosphere.ceph
   when: atmosphere_ceph_enabled | default(true) | bool
@@ -20,6 +39,7 @@
   import_playbook: vexxhost.atmosphere.kubernetes
 
 - name: Switch CoreDNS to use CloudFlare DNS
+  when: atmosphere_fix_coredns | default(false) | bool
   hosts: controllers[0]
   become: true
   tasks:
