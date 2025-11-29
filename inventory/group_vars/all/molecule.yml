@@ -10,12 +10,6 @@ glance_images:
     container_format: bare
     is_public: true
 
-atmosphere_network_backend: "{{ lookup('env', 'ATMOSPHERE_NETWORK_BACKEND') | default('openvswitch', True) }}"
-ovn_helm_values:
-  conf:
-    auto_bridge_add:
-      br-ex: ens4
-
 neutron_helm_values:
   conf:
     auto_bridge_add:

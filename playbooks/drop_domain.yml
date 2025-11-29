@@ -1,0 +1,52 @@
+---
+- name: Disable DNS Domain (search domain) on ens3 and ens4
+  hosts: all
+  become: true
+    #gather_facts: false
+  vars:
+    interfaces:
+      - ens3
+      - ens4
+  tasks:
+    - name: Create systemd-networkd override to disable DNS domains
+      ansible.builtin.copy:
+        dest: "/etc/systemd/network/99-{{ item }}-nodomain.network"
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [Match]
+          Name={{ item }}
+
+          [Network]
+          DNS=1.1.1.1
+
+          # Do not use DHCP/static DNS search domain from this interface
+          UseDomains=no
+      loop: "{{ interfaces }}"
+      notify:
+        - Restart systemd-networkd
+        - Restart systemd-resolved
+
+    - name: Ensure systemd-networkd is enabled and running
+      ansible.builtin.service:
+        name: systemd-networkd
+        state: started
+        enabled: true
+
+    - name: Ensure systemd-resolved is enabled and running
+      ansible.builtin.service:
+        name: systemd-resolved
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart systemd-networkd
+      ansible.builtin.service:
+        name: systemd-networkd
+        state: restarted
+
+    - name: Restart systemd-resolved
+      ansible.builtin.service:
+        name: systemd-resolved
+        state: restarted
