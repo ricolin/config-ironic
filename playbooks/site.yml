@@ -43,6 +43,24 @@
         #- name: ensure pip3
         #become: true
         #command: sudo apt install python3-pip
+        #
+
+    - name: Ensure 127.0.1.1 maps to hostname and FQDN
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.1\.1\s+'
+        line: "127.0.1.1 {{ ansible_hostname }} {{ ansible_fqdn | default(ansible_hostname) }}"
+        state: present
+        backup: true
+
+    - name: Ensure nameserver 1.1.1.1 exists in /etc/resolv.conf
+      ansible.builtin.lineinfile:
+        path: /etc/resolv.conf
+        regexp: '^nameserver[ \t]+1\.1\.1\.1$'
+        line: 'nameserver 1.1.1.1'
+        state: present
+        insertafter: '^nameserver'
+        backup: true
 
 - hosts: controllers
   tasks:
