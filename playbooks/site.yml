@@ -81,6 +81,7 @@
 
 
     - name: Ensure 127.0.1.1 maps to hostname and FQDN
+      become: true
       ansible.builtin.lineinfile:
         path: /etc/hosts
         regexp: '^127\.0\.1\.1\s+'
@@ -89,6 +90,7 @@
         backup: true
 
     - name: Ensure nameserver 1.1.1.1 exists in /etc/resolv.conf
+      become: true
       ansible.builtin.lineinfile:
         path: /etc/resolv.conf
         regexp: '^nameserver[ \t]+1\.1\.1\.1$'
