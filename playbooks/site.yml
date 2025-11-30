@@ -43,7 +43,42 @@
         #- name: ensure pip3
         #become: true
         #command: sudo apt install python3-pip
-        #
+
+    - name: Replace /etc/netplan/50-cloud-init.yaml with custom config
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/netplan/50-cloud-init.yaml
+        owner: root
+        group: root
+        mode: '0644'
+        backup: true
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens3:
+                dhcp4: true
+                dhcp4-overrides:
+                  use-dns: false        # ignore DNS from DHCP
+                  use-domains: false    # ignore search/domain from DHCP
+                nameservers:
+                  addresses:
+                    - 1.1.1.1
+                    - 8.8.8.8
+                  # no "search:" section -> no search domain
+
+    - name: Generate netplan configuration
+      become: true
+      ansible.builtin.command: netplan generate
+      register: netplan_generate
+      changed_when: netplan_generate.rc == 0
+
+    - name: Apply netplan configuration
+      become: true
+      ansible.builtin.command: netplan apply
+      when: netplan_generate.rc == 0
+
 
     - name: Ensure 127.0.1.1 maps to hostname and FQDN
       ansible.builtin.lineinfile:
