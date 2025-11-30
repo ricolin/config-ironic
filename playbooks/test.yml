@@ -1,0 +1,51 @@
+# Copyright (c) 2022 VEXXHOST, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+- hosts: all
+  tasks:
+    # The apt module can not be used for this since it installs python-apt
+    - name: Replace /etc/netplan/50-cloud-init.yaml with custom config
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/netplan/50-cloud-init.yaml
+        owner: root
+        group: root
+        mode: '0644'
+        backup: true
+        content: |
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens3:
+                dhcp4: true
+                dhcp4-overrides:
+                  use-dns: false        # ignore DNS from DHCP
+                  use-domains: false    # ignore search/domain from DHCP
+                nameservers:
+                  addresses:
+                    - 1.1.1.1
+                    - 8.8.8.8
+                  # no "search:" section -> no search domain
+
+    - name: Generate netplan configuration
+      become: true
+      ansible.builtin.command: netplan generate
+      register: netplan_generate
+      changed_when: netplan_generate.rc == 0
+
+    - name: Apply netplan configuration
+      become: true
+      ansible.builtin.command: netplan apply
+      when: netplan_generate.rc == 0
